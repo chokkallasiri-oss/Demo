@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRIDE - Premium Footwear Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-cream: #F5F1E8;
+            --color-charcoal: #2C2C2C;
+            --color-rust: #C85A3F;
+            --color-sand: #D4C5B0;
+            --color-sage: #8A9A7B;
+            --color-black: #141414;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--color-cream);
+            color: var(--color-charcoal);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(245,241,232,0.95) 0%, rgba(245,241,232,0) 100%);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--color-black);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-charcoal);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-rust);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-label {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            color: var(--color-rust);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--color-black);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--color-charcoal);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background-color: var(--color-black);
+            color: var(--color-cream);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            transition: all 0.4s ease;
+            border: 2px solid var(--color-black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-rust);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button:hover {
+            border-color: var(--color-rust);
+        }
+
+        .hero-image {
+            position: relative;
+            width: 45%;
+            height: 80vh;
+            animation: fadeInRight 1.2s ease-out 0.5s backwards;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .decorative-shape {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-rust) 0%, var(--color-sand) 100%);
+            opacity: 0.1;
+            border-radius: 50%;
+            top: 10%;
+            right: 15%;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Featured Collection */
+        .featured {
+            padding: 8rem 4rem;
+            background-color: var(--color-sand);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            color: var(--color-rust);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--color-black);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: var(--color-cream);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+            animation: fadeIn 0.8s ease-out backwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            background-color: #E8E3D8;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 2rem;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--color-black);
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: var(--color-charcoal);
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-rust);
+        }
+
+        /* Categories */
+        .categories {
+            padding: 8rem 4rem;
+            background-color: var(--color-cream);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.5rem;
+            background: linear-gradient(to top, rgba(20,20,20,0.9) 0%, rgba(20,20,20,0) 100%);
+            color: white;
+        }
+
+        .category-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 8rem 4rem;
+            background-color: var(--color-black);
+            color: var(--color-cream);
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter p {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid var(--color-sand);
+            background-color: transparent;
+            color: var(--color-cream);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--color-sand);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--color-rust);
+        }
+
+        .newsletter-button {
+            padding: 1.2rem 2.5rem;
+            background-color: var(--color-rust);
+            color: white;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background-color: #B04A31;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-charcoal);
+            color: var(--color-cream);
+            padding: 4rem 4rem 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--color-cream);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(245,241,232,0.2);
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+                padding: 6rem 2rem 2rem;
+            }
+
+            .hero-content {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-image {
+                width: 80%;
+                height: 50vh;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">STRIDE</div>
+        <ul class="nav-links">
+            <li><a href="#new">NEW ARRIVALS</a></li>
+            <li><a href="#men">MEN</a></li>
+            <li><a href="#women">WOMEN</a></li>
+            <li><a href="#sale">SALE</a></li>
+            <li><a href="#about">ABOUT</a></li>
+        </ul>
+        <div class="nav-icons">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="decorative-shape"></div>
+        <div class="hero-content">
+            <div class="hero-label">SPRING COLLECTION 2026</div>
+            <h1>Step Into Elegance</h1>
+            <p>Discover handcrafted footwear that combines timeless design with modern comfort. Each pair tells a story of artisanal excellence.</p>
+            <a href="#shop" class="cta-button">EXPLORE COLLECTION</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&h=1000&fit=crop" alt="Featured Footwear">
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured">
+        <div class="section-header">
+            <div class="section-label">CURATED FOR YOU</div>
+            <h2 class="section-title">Featured Collection</h2>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop" alt="Classic Sneaker">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Heritage Sneaker</h3>
+                    <p class="product-category">Men's Casual</p>
+                    <div class="product-price">$129.00</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=400&h=400&fit=crop" alt="Leather Boot">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Summit Boot</h3>
+                    <p class="product-category">Women's Outdoor</p>
+                    <div class="product-price">$189.00</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&h=400&fit=crop" alt="Running Shoe">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Velocity Runner</h3>
+                    <p class="product-category">Athletic Performance</p>
+                    <div class="product-price">$145.00</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&h=400&fit=crop" alt="Elegant Heel">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Evening Grace</h3>
+                    <p class="product-category">Women's Formal</p>
+                    <div class="product-price">$165.00</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="section-header">
+            <div class="section-label">SHOP BY STYLE</div>
+            <h2 class="section-title">Explore Categories</h2>
+        </div>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&h=800&fit=crop" alt="Sneakers">
+                <div class="category-overlay">
+                    <h3 class="category-name">Sneakers</h3>
+                    <p class="category-count">128 styles</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&h=800&fit=crop" alt="Boots">
+                <div class="category-overlay">
+                    <h3 class="category-name">Boots</h3>
+                    <p class="category-count">64 styles</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&h=800&fit=crop" alt="Dress Shoes">
+                <div class="category-overlay">
+                    <h3 class="category-name">Dress Shoes</h3>
+                    <p class="category-count">92 styles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Join Our Community</h2>
+        <p>Subscribe to receive exclusive offers and stay updated on new arrivals</p>
+        <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+            <button type="submit" class="newsletter-button">SUBSCRIBE</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">STRIDE</div>
+                <p class="footer-description">Crafting exceptional footwear since 2015. Every step matters, every design counts.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#new">New Arrivals</a></li>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#sale">Sale</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#shipping">Shipping Info</a></li>
+                    <li><a href="#returns">Returns</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#sustainability">Sustainability</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 STRIDE. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
