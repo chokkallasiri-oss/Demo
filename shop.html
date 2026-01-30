@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - NOIR & CO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #c9a96e;
+            --accent: #8b7355;
+            --light: #f5f3ef;
+            --white: #ffffff;
+            --text: #2d2d2d;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, var(--light), #e8e4dd);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 2rem 5%;
+            background: var(--white);
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+        }
+
+        .filter-group select {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent);
+            background: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:hover {
+            border-color: var(--secondary);
+        }
+
+        /* Shop Grid */
+        .shop-container {
+            padding: 4rem 5%;
+            background: var(--white);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.15s; }
+        .product-card:nth-child(3) { animation-delay: 0.2s; }
+        .product-card:nth-child(4) { animation-delay: 0.25s; }
+        .product-card:nth-child(5) { animation-delay: 0.3s; }
+        .product-card:nth-child(6) { animation-delay: 0.35s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 380px;
+            background: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .product-card:hover .product-image::before {
+            opacity: 0.2;
+        }
+
+        .product-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: var(--accent);
+            background: linear-gradient(135deg, var(--light), #e8e4dd);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .product-info {
+            padding: 1.5rem 0;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .add-to-cart {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .product-card:hover .add-to-cart {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .add-to-cart:hover {
+            background: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">NOIR & CO</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Our Collection</h1>
+        <p>Discover pieces that define your style</p>
+    </div>
+
+    <section class="filter-section">
+        <form class="filter-form">
+            <div class="filter-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="all">All Items</option>
+                    <option value="dresses">Dresses</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="footwear">Footwear</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price">Price Range</label>
+                <select id="price" name="price">
+                    <option value="all">All Prices</option>
+                    <option value="under200">Under $200</option>
+                    <option value="200-400">$200 - $400</option>
+                    <option value="over400">Over $400</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sort">Sort By</label>
+                <select id="sort" name="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </div>
+        </form>
+    </section>
+
+    <section class="shop-container">
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">New</span>
+                    <div class="product-placeholder">S</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Dresses</p>
+                    <h3 class="product-name">Silk Evening Dress</h3>
+                    <p class="product-price">$289.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-placeholder">C</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Outerwear</p>
+                    <h3 class="product-name">Cashmere Coat</h3>
+                    <p class="product-price">$459.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">Sale</span>
+                    <div class="product-placeholder">H</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Accessories</p>
+                    <h3 class="product-name">Leather Handbag</h3>
+                    <p class="product-price">$199.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-placeholder">B</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Footwear</p>
+                    <h3 class="product-name">Suede Boots</h3>
+                    <p class="product-price">$329.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">New</span>
+                    <div class="product-placeholder">W</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Outerwear</p>
+                    <h3 class="product-name">Wool Blazer</h3>
+                    <p class="product-price">$379.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-placeholder">L</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Dresses</p>
+                    <h3 class="product-name">Linen Midi Dress</h3>
+                    <p class="product-price">$189.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-placeholder">S</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Accessories</p>
+                    <h3 class="product-name">Silk Scarf</h3>
+                    <p class="product-price">$89.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">Sale</span>
+                    <div class="product-placeholder">P</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Footwear</p>
+                    <h3 class="product-name">Patent Pumps</h3>
+                    <p class="product-price">$249.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-placeholder">T</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Outerwear</p>
+                    <h3 class="product-name">Trench Coat</h3>
+                    <p class="product-price">$429.00</p>
+                    <button class="add-to-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p class="copyright">&copy; 2026 Noir & Co. All rights reserved.</p>
+    </footer>
+</body>
+</html>
