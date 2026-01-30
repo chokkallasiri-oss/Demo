@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - NOIR & CO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #c9a96e;
+            --accent: #8b7355;
+            --light: #f5f3ef;
+            --white: #ffffff;
+            --text: #2d2d2d;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 3rem 5%;
+            background: linear-gradient(135deg, var(--light), #e8e4dd);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        /* Cart Container */
+        .cart-container {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 150px 1fr auto;
+            gap: 2rem;
+            padding: 2rem;
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            margin-bottom: 1.5rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .item-image {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--light), #e8e4dd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--accent);
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-details h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-category {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .item-options {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .option-group label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+
+        .option-group select {
+            padding: 0.5rem;
+            border: 1px solid #d0d0d0;
+            background: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--primary);
+            background: var(--white);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .quantity-display {
+            width: 50px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .remove-btn {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            color: #d32f2f;
+        }
+
+        .item-price-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--light);
+            padding: 2.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            animation: fadeIn 0.6s ease 0.2s both;
+        }
+
+        .order-summary h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        .summary-row:last-of-type {
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .summary-label {
+            color: var(--text);
+        }
+
+        .summary-value {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .promo-code {
+            margin-bottom: 2rem;
+        }
+
+        .promo-code input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #d0d0d0;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .apply-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--white);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent);
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .continue-shopping:hover {
+            color: var(--secondary);
+        }
+
+        .empty-cart {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .empty-cart h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .shop-now-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--secondary);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: background 0.3s ease;
+        }
+
+        .shop-now-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 968px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">NOIR & CO</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Shopping Cart</h1>
+    </div>
+
+    <div class="cart-container" id="cartContainer">
+        <div class="cart-items" id="cartItems">
+            <div class="cart-item">
+                <div class="item-image">S</div>
+                <div class="item-details">
+                    <div>
+                        <h3>Silk Evening Dress</h3>
+                        <p class="item-category">Dresses</p>
+                        <div class="item-options">
+                            <div class="option-group">
+                                <label>Size</label>
+                                <select>
+                                    <option>XS</option>
+                                    <option selected>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>Color</label>
+                                <select>
+                                    <option selected>Black</option>
+                                    <option>Navy</option>
+                                    <option>Burgundy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity(this, -1)">−</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                        <a href="#" class="remove-btn" onclick="removeItem(this); return false;">Remove</a>
+                    </div>
+                </div>
+                <div class="item-price-section">
+                    <p class="item-price" data-price="289">$289.00</p>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="item-image">C</div>
+                <div class="item-details">
+                    <div>
+                        <h3>Cashmere Coat</h3>
+                        <p class="item-category">Outerwear</p>
+                        <div class="item-options">
+                            <div class="option-group">
+                                <label>Size</label>
+                                <select>
+                                    <option>XS</option>
+                                    <option>S</option>
+                                    <option selected>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>Color</label>
+                                <select>
+                                    <option>Beige</option>
+                                    <option selected>Camel</option>
+                                    <option>Grey</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity(this, -1)">−</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                        <a href="#" class="remove-btn" onclick="removeItem(this); return false;">Remove</a>
+                    </div>
+                </div>
+                <div class="item-price-section">
+                    <p class="item-price" data-price="459">$459.00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            
+            <div class="summary-row">
+                <span class="summary-label">Subtotal</span>
+                <span class="summary-value" id="subtotal">$748.00</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="summary-label">Shipping</span>
+                <span class="summary-value">Free</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="summary-label">Tax</span>
+                <span class="summary-value" id="tax">$74.80</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="summary-label">Total</span>
+                <span class="summary-value summary-total" id="total">$822.80</span>
+            </div>
+
+            <div class="promo-code">
+                <input type="text" placeholder="Promo Code" id="promoInput">
+                <button class="apply-btn" onclick="applyPromo()">Apply Code</button>
+            </div>
+
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            <a href="shop.html" class="continue-shopping">Continue Shopping</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p class="copyright">&copy; 2026 Noir & Co. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function updateQuantity(button, change) {
+            const quantityDisplay = button.parentElement.querySelector('.quantity-display');
+            let currentQuantity = parseInt(quantityDisplay.textContent);
+            let newQuantity = currentQuantity + change;
+            
+            if (newQuantity < 1) newQuantity = 1;
+            if (newQuantity > 10) newQuantity = 10;
+            
+            quantityDisplay.textContent = newQuantity;
+            updateTotals();
+        }
+
+        function removeItem(button) {
+            const cartItem = button.closest('.cart-item');
+            cartItem.style.animation = 'fadeOut 0.3s ease';
+            
+            setTimeout(() => {
+                cartItem.remove();
+                updateTotals();
+                checkEmptyCart();
+            }, 300);
+        }
+
+        function updateTotals() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+            
+            cartItems.forEach(item => {
+                const price = parseFloat(item.querySelector('.item-price').dataset.price);
+                const quantity = parseInt(item.querySelector('.quantity-display').textContent);
+                subtotal += price * quantity;
+            });
+            
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+            
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('tax').textContent = '$' + tax.toFixed(2);
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
+        }
+
+        function checkEmptyCart() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            
+            if (cartItems.length === 0) {
+                document.getElementById('cartContainer').innerHTML = `
+                    <div class="empty-cart">
+                        <h2>Your Cart is Empty</h2>
+                        <p>Looks like you haven't added anything to your cart yet.</p>
+                        <a href="shop.html" class="shop-now-btn">Start Shopping</a>
+                    </div>
+                `;
+            }
+        }
+
+        function applyPromo() {
+            const promoInput = document.getElementById('promoInput');
+            const promoCode = promoInput.value.toUpperCase();
+            
+            if (promoCode === 'NOIR10') {
+                alert('Promo code applied! 10% discount added.');
+                promoInput.value = '';
+            } else if (promoCode === '') {
+                alert('Please enter a promo code.');
+            } else {
+                alert('Invalid promo code. Try NOIR10 for 10% off!');
+            }
+        }
+
+        function checkout() {
+            alert('Proceeding to checkout... This would redirect to a payment page in a full implementation.');
+            window.location.href = 'checkout.html';
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(-30px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
